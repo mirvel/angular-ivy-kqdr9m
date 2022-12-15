@@ -1,0 +1,12 @@
+<div class="item-container">
+  <div class="name">{{ item.name }}</div>
+  <div class="region">
+    {{ item.region }}
+  </div>
+  <div class="item-score-container">
+    <!-- TODO: Order should be depended of the headers -->
+    <div *ngFor="let score of item.scores" class="scores">
+      <div>{{ itemRound(score.score) }}</div>
+    </div>
+  </div>
+</div>

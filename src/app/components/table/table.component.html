@@ -1,0 +1,34 @@
+<select [formControl]="country" *ngIf="countries">
+  <option [ngValue]="null">Select Country</option>
+  <option *ngFor="let country of countries" [ngValue]="country">
+    {{ country }}
+  </option>
+</select>
+<select [formControl]="itemsPerPage">
+  <option [ngValue]="null">All items</option>
+  <option [ngValue]="10">10 items per page</option>
+</select>
+<div class="pagination">
+  <span (click)="first()"><<</span>
+  <span (click)="prev()"><</span>
+  <span>{{ currentPage }}</span>
+  <span (click)="next()">></span>
+  <span (click)="last()">>></span>
+  Total: {{ items.value.length }} Total pages: {{ totalPages }}
+</div>
+<div class="item-container">
+  <div class="name" (click)="sort('name')">Name</div>
+  <div class="region" (click)="sort('region')">Region</div>
+  <div class="item-score-container">
+    Scores
+    <div class="types">
+      <!-- TODO: replace with ng-container -->
+      <div *ngFor="let type of types" class="scores">
+        <div>{{ type }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngFor="let item of items | async">
+  <app-item [item]="item"></app-item>
+</div>

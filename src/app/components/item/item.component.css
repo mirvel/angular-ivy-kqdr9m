@@ -1,0 +1,25 @@
+.item-container {
+  display: flex;
+  flex-direction: row;
+}
+.item-container .name {
+  padding: 0 2px;
+  width: 100px;
+  overflow: hidden;
+}
+
+.item-container .region {
+  padding: 0 2px;
+  width: 400px;
+}
+.item-score-container {
+  display: flex;
+  flex-direction: row;
+}
+.item-score-container div {
+  padding: 0 2px;
+}
+
+.scores {
+  width: 50px;
+}

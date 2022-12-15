@@ -1,0 +1,39 @@
+.item-container {
+  display: flex;
+  flex-direction: row;
+  font-weight: bold;
+}
+.item-container .name {
+  padding: 0 2px;
+  width: 200px;
+  cursor: pointer;
+}
+
+.item-container .region {
+  padding: 0 2px;
+  width: 400px;
+  cursor: pointer;
+}
+.item-score-container {
+  display: flex;
+  flex-direction: column;
+}
+.item-score-container div {
+  padding: 0 2px;
+}
+
+.types {
+  width: 200px;
+  display: flex;
+  flex-direction: row;
+}
+
+.scores {
+  width: 50px;
+}
+
+.pagination span {
+  padding: 0 3px;
+  display: inline;
+  cursor: pointer;
+}
