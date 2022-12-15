@@ -16,16 +16,16 @@
   <span (click)="last()">>></span>
   Total: {{ items.value.length }} Total pages: {{ totalPages }}
 </div>
-<div class="item-container">
+
+<div class="header">
   <div class="name" (click)="sort('name')">Name</div>
   <div class="region" (click)="sort('region')">Region</div>
-  <div class="item-score-container">
-    Scores
-    <div class="types">
-      <!-- TODO: replace with ng-container -->
-      <div *ngFor="let type of types" class="scores">
-        <div>{{ type }}</div>
-      </div>
+  <div class="scores">
+    Scores:
+    <div class="scores-container">
+      <ng-container *ngFor="let type of types">
+        <div class="score">{{ type }}</div>
+      </ng-container>
     </div>
   </div>
 </div>

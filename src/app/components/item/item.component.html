@@ -3,10 +3,12 @@
   <div class="region">
     {{ item.region }}
   </div>
-  <div class="item-score-container">
+  <div class="scores">
     <!-- TODO: Order should be depended of the headers -->
-    <div *ngFor="let score of item.scores" class="scores">
-      <div>{{ itemRound(score.score) }}</div>
+    <div class="scores-container">
+      <ng-container *ngFor="let score of item.scores">
+        <div class="score">{{ itemRound(score.score) }}</div>
+      </ng-container>
     </div>
   </div>
 </div>

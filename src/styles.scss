@@ -1,0 +1,58 @@
+.header {
+  font-weight: bold;
+  background-color: #ccc;
+  justify-content: center;
+  align-items: center;
+  padding: 2px;
+  .name,
+  .region {
+    cursor: pointer;
+  }
+}
+
+.header,
+.item-container {
+  display: flex;
+}
+
+.header .name,
+.item-container .name,
+.header .region,
+.item-container .region,
+.header .scores,
+.item-container .scores {
+  padding: 0 2px;
+  text-align: center;
+}
+
+.header .name,
+.item-container .name,
+.header .region,
+.item-container .region {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.header .scores,
+.item-container .scores {
+  flex: 2;
+}
+
+.header .scores-container,
+.scores-container {
+  display: flex;
+  flex-direction: row;
+  .score {
+    padding: 0 2px;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+  }
+}
+
+.pagination span {
+  padding: 0 3px;
+  display: inline;
+  cursor: pointer;
+}
