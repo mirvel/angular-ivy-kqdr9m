@@ -68,25 +68,13 @@ export class TableComponent implements OnInit {
 
   sort(value) {
     const { field, type } = value;
+    const direction = (this.sortConfig[field].direction =
+      -this.sortConfig[field].direction);
 
-    if (type) {
-      this.sortFn = (a, b) => {
-        const a_value =
-          a[field].length &&
-          a[field].filter((a_field) => a_field.type == type)[0];
-        const b_value =
-          b[field].length &&
-          b[field].filter((b_field) => b_field.type == type)[0];
-        console.log({ a_value, b_value });
-        return a_value.score < b_value.score ? -1 : 1;
-      };
-    } else {
-      this.sortFn = (a, b) => {
-        const direction = (this.sortConfig[field].direction =
-          -this.sortConfig[field].direction);
-        return a[field] < b[field] ? direction : -direction;
-      };
-    }
+    this.sortFn = (a, b) => {
+      console.log({ direction });
+      return a[field] < b[field] ? direction : -direction;
+    };
 
     this.updatePage();
   }

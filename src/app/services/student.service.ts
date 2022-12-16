@@ -8,8 +8,8 @@ export class StudentService {
   getStudents() {
     return this.http.get('/assets/students.json').pipe(
       map((list: Student[]) => {
+        // Convert scores list to object and join it to student details
         return list.map((item) => {
-          console.log(item);
           if (item['scores']) {
             const flatItem = item['scores'].reduce(
               (acc, { type, score }) => ({ ...acc, [type]: score }),
