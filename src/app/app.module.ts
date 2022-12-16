@@ -6,19 +6,12 @@ import { AppComponent } from './app.component';
 import { LayoutComponent } from './components/layout/layout.component';
 import { TableComponent } from './components/table/table.component';
 import { ItemComponent } from './components/item/item.component';
-import { HeaderComponent } from './components/header/header.component';
 import { HttpClientModule } from '@angular/common/http';
 import { StudentService } from './services/student.service';
 
 @NgModule({
   imports: [BrowserModule, FormsModule, HttpClientModule, ReactiveFormsModule],
-  declarations: [
-    AppComponent,
-    LayoutComponent,
-    HeaderComponent,
-    TableComponent,
-    ItemComponent,
-  ],
+  declarations: [AppComponent, LayoutComponent, TableComponent, ItemComponent],
 
   bootstrap: [AppComponent],
   providers: [StudentService],

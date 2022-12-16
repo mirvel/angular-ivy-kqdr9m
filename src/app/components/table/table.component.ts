@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
+import { Student } from '../../models/Student';
 import { StudentService } from '../../services/student.service';
 
-interface Student {
-  name: string;
-  region: string;
-}
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
@@ -16,17 +13,24 @@ export class TableComponent implements OnInit {
   items: BehaviorSubject<Student[]> = new BehaviorSubject<Student[]>([]);
   _items: Student[];
 
-  types = ['Exam', 'Quiz', 'Homework']; // TODo Get from list
+  score_types = [
+    { title: 'Exam', key: 'exam' },
+    { title: 'Quiz', key: 'quiz' },
+    { title: 'Homework', key: 'homework' },
+  ]; // TODo Get from list
   countries = [];
   selectedCountry;
   country;
-  itemsPerPage: FormControl;
+  itemsPerPageFormControl: FormControl;
   currentPage: number = 1;
-  currentItemsPerPage: number = 1;
+  itemsPerPage: number;
   totalPages: number = 1;
+  sortFn: (a: Student, b: Student) => number;
+  sortConfig = { name: { direction: 1 }, region: { direction: 1 } };
+
   constructor(private studentService: StudentService) {
     this.country = new FormControl();
-    this.itemsPerPage = new FormControl();
+    this.itemsPerPageFormControl = new FormControl();
 
     this.country.valueChanges.subscribe((value) => {
       if (value) {
@@ -39,8 +43,8 @@ export class TableComponent implements OnInit {
         this.items.next(this._items);
       }
     });
-    this.itemsPerPage.valueChanges.subscribe((size) => {
-      this.currentItemsPerPage = size;
+    this.itemsPerPageFormControl.valueChanges.subscribe((size) => {
+      this.itemsPerPage = size;
       this.updatePage();
     });
   }
@@ -48,9 +52,9 @@ export class TableComponent implements OnInit {
   ngOnInit() {
     this.studentService.getStudents().subscribe((list: any) => {
       this._items = list;
-      this.items.next(list);
+      this.itemsPerPageFormControl.setValue(10);
       this.countries = Object.keys(this.getCountries());
-      console.log(this.countries);
+      this.sort({ field: 'name' });
     });
   }
 
@@ -62,10 +66,29 @@ export class TableComponent implements OnInit {
     return countries;
   }
 
-  sort(type) {
-    const sortedList = this._items.sort((a, b) => {
-      return a[type] > b[type] ? -1 : 1;
-    });
+  sort(value) {
+    const { field, type } = value;
+
+    if (type) {
+      this.sortFn = (a, b) => {
+        const a_value =
+          a[field].length &&
+          a[field].filter((a_field) => a_field.type == type)[0];
+        const b_value =
+          b[field].length &&
+          b[field].filter((b_field) => b_field.type == type)[0];
+        console.log({ a_value, b_value });
+        return a_value.score < b_value.score ? -1 : 1;
+      };
+    } else {
+      this.sortFn = (a, b) => {
+        const direction = (this.sortConfig[field].direction =
+          -this.sortConfig[field].direction);
+        return a[field] < b[field] ? direction : -direction;
+      };
+    }
+
+    this.updatePage();
   }
 
   first() {
@@ -73,8 +96,7 @@ export class TableComponent implements OnInit {
     this.updatePage();
   }
   last() {
-    console.log('lastClicked');
-    if (this.currentItemsPerPage) this.currentPage = this.totalPages;
+    if (this.itemsPerPage) this.currentPage = this.totalPages;
     else this.currentPage = 1;
     this.updatePage();
   }
@@ -88,10 +110,8 @@ export class TableComponent implements OnInit {
   }
 
   calucateMaxPages() {
-    if (this.currentItemsPerPage)
-      this.totalPages = Math.round(
-        this._items.length / this.currentItemsPerPage
-      );
+    if (this.itemsPerPage)
+      this.totalPages = Math.round(this._items.length / this.itemsPerPage);
     else {
       this.totalPages = 1;
       this.currentPage = 1;
@@ -99,20 +119,15 @@ export class TableComponent implements OnInit {
   }
 
   updatePage() {
-    if (this.currentItemsPerPage) {
-      //TODO: add pagination
-      // TODO: Make sure that items index is corret
-      const startWith = (this.currentPage - 1) * this.currentItemsPerPage;
-      console.log({ startWith, howMany: this.currentItemsPerPage });
-      const slicedItems = this._items.slice(
-        startWith,
-        startWith + this.currentItemsPerPage
-      );
-      this.items.next(slicedItems);
+    let updatedList: Student[];
+    if (this.itemsPerPage) {
+      const startWith = (this.currentPage - 1) * this.itemsPerPage;
+      updatedList = this._items.slice(startWith, startWith + this.itemsPerPage);
     } else {
-      this.items.next(this._items);
+      updatedList = [...this._items];
     }
 
+    this.items.next(updatedList.sort(this.sortFn));
     this.calucateMaxPages();
   }
 }

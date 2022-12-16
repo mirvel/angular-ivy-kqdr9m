@@ -1,34 +1,46 @@
-<select [formControl]="country" *ngIf="countries">
-  <option [ngValue]="null">Select Country</option>
-  <option *ngFor="let country of countries" [ngValue]="country">
-    {{ country }}
-  </option>
-</select>
-<select [formControl]="itemsPerPage">
-  <option [ngValue]="null">All items</option>
-  <option [ngValue]="10">10 items per page</option>
-</select>
-<div class="pagination">
-  <span (click)="first()"><<</span>
-  <span (click)="prev()"><</span>
-  <span>{{ currentPage }}</span>
-  <span (click)="next()">></span>
-  <span (click)="last()">>></span>
-  Total: {{ items.value.length }} Total pages: {{ totalPages }}
+<div class="navigation-buttons-container">
+  <select [formControl]="country" *ngIf="countries">
+    <option [ngValue]="null">Select Country</option>
+    <option *ngFor="let country of countries" [ngValue]="country">
+      {{ country }}
+    </option>
+  </select>
+  <select [formControl]="itemsPerPageFormControl">
+    <option [ngValue]="null">All items</option>
+    <option [ngValue]="10">10 items per page</option>
+  </select>
+  <div class="records">{{ items.value.length }} records</div>
+  <div class="spacer"></div>
+
+  <div class="pagination">
+    <span (click)="first()"><<</span>
+    <span (click)="prev()"><</span>
+    <span>{{ currentPage }} of {{ totalPages }} </span>
+    <span (click)="next()">></span>
+    <span (click)="last()">>></span>
+  </div>
 </div>
 
-<div class="header">
-  <div class="name" (click)="sort('name')">Name</div>
-  <div class="region" (click)="sort('region')">Region</div>
+<div class="items-header">
+  <div class="name" (click)="sort({ field: 'name' })">Name</div>
+  <div class="region" (click)="sort({ field: 'region' })">Region</div>
   <div class="scores">
     Scores:
     <div class="scores-container">
-      <ng-container *ngFor="let type of types">
-        <div class="score">{{ type }}</div>
+      <ng-container *ngFor="let score_type of score_types">
+        <div
+          class="score"
+          (click)="sort({ field: 'scores', type: score_type.key })"
+        >
+          {{ score_type.title }}
+        </div>
       </ng-container>
     </div>
   </div>
 </div>
-<div *ngFor="let item of items | async">
-  <app-item [item]="item"></app-item>
+
+<div class="items-container" *ngIf="items | async as list">
+  <ng-container *ngFor="let item of list">
+    <app-item [item]="item"></app-item>
+  </ng-container>
 </div>

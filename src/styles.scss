@@ -1,44 +1,51 @@
-.header {
+body {
+  margin: 100px auto;
+  min-width: 600px;
+  max-width: 800px;
+  min-height: 600px;
+  box-shadow: 5px 5px 5px 5px #ccc;
+}
+.items-header {
   font-weight: bold;
-  background-color: #ccc;
+  background-color: #ccf;
   justify-content: center;
   align-items: center;
-  padding: 2px;
+  padding: 11px;
   .name,
   .region {
     cursor: pointer;
   }
 }
 
-.header,
+.items-header,
 .item-container {
   display: flex;
 }
 
-.header .name,
+.items-header .name,
 .item-container .name,
-.header .region,
+.items-header .region,
 .item-container .region,
-.header .scores,
+.items-header .scores,
 .item-container .scores {
   padding: 0 2px;
   text-align: center;
 }
 
-.header .name,
+.items-header .name,
 .item-container .name,
-.header .region,
+.items-header .region,
 .item-container .region {
   flex: 1;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.header .scores,
+.items-header .scores,
 .item-container .scores {
   flex: 2;
 }
 
-.header .scores-container,
+.items-header .scores-container,
 .scores-container {
   display: flex;
   flex-direction: row;
@@ -55,4 +62,23 @@
   padding: 0 3px;
   display: inline;
   cursor: pointer;
+}
+
+.items-container {
+  margin-top: 10px;
+}
+
+.navigation-buttons-container {
+  display: flex;
+  padding: 10px;
+  select {
+    margin: 0 2px;
+  }
+  .spacer {
+    flex: 1;
+  }
+  .pagination {
+    color: rgb(72, 72, 72);
+    font-weight: bold;
+  }
 }
