@@ -1,6 +1,6 @@
 body {
   margin: 100px auto;
-  min-width: 600px;
+  min-width: 400px;
   max-width: 800px;
   min-height: 600px;
   box-shadow: 5px 5px 5px 5px #ccc;
@@ -12,7 +12,8 @@ body {
   align-items: center;
   padding: 11px;
   .name,
-  .region {
+  .region,
+  .score {
     cursor: pointer;
   }
 }
@@ -27,7 +28,7 @@ body {
 .items-header .region,
 .item-container .region,
 .items-header .scores,
-.item-container .scores {
+.item-container .score {
   padding: 0 2px;
   text-align: center;
 }
@@ -40,21 +41,19 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.items-header .scores,
-.item-container .scores {
-  flex: 2;
-}
 
 .items-header .scores-container,
-.scores-container {
-  display: flex;
-  flex-direction: row;
+.item-container .scores-container {
+  flex: 2;
+}
+.items-header .scores-container,
+.item-container .scores-container {
+  text-align: center;
   .score {
     padding: 0 2px;
     flex: 1;
     overflow: hidden;
     text-overflow: ellipsis;
-    text-align: center;
   }
 }
 
@@ -80,5 +79,21 @@ body {
   .pagination {
     color: rgb(72, 72, 72);
     font-weight: bold;
+  }
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+@media only screen and (max-width: 600px) {
+  .scores-container {
+    display: none;
   }
 }

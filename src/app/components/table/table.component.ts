@@ -12,12 +12,6 @@ import { StudentService } from '../../services/student.service';
 export class TableComponent implements OnInit {
   items: BehaviorSubject<Student[]> = new BehaviorSubject<Student[]>([]);
   _items: Student[];
-
-  score_types = [
-    { title: 'Exam', key: 'exam' },
-    { title: 'Quiz', key: 'quiz' },
-    { title: 'Homework', key: 'homework' },
-  ]; // TODo Get from list
   countries = [];
   selectedCountry;
   country;
@@ -26,7 +20,13 @@ export class TableComponent implements OnInit {
   itemsPerPage: number;
   totalPages: number = 1;
   sortFn: (a: Student, b: Student) => number;
-  sortConfig = { name: { direction: 1 }, region: { direction: 1 } };
+  sortConfig = {
+    name: { direction: 1 },
+    region: { direction: 1 },
+    exam: { direction: 1 },
+    quiz: { direction: 1 },
+    homework: { direction: 1 },
+  };
 
   constructor(private studentService: StudentService) {
     this.country = new FormControl();
@@ -54,7 +54,7 @@ export class TableComponent implements OnInit {
       this._items = list;
       this.itemsPerPageFormControl.setValue(10);
       this.countries = Object.keys(this.getCountries());
-      this.sort({ field: 'name' });
+      this.sort('name');
     });
   }
 
@@ -66,13 +66,11 @@ export class TableComponent implements OnInit {
     return countries;
   }
 
-  sort(value) {
-    const { field, type } = value;
+  sort(field) {
     const direction = (this.sortConfig[field].direction =
       -this.sortConfig[field].direction);
 
     this.sortFn = (a, b) => {
-      console.log({ direction });
       return a[field] < b[field] ? direction : -direction;
     };
 
@@ -93,7 +91,7 @@ export class TableComponent implements OnInit {
     this.updatePage();
   }
   prev() {
-    if (this.currentPage > 0) this.currentPage--;
+    if (this.currentPage > 1) this.currentPage--;
     this.updatePage();
   }
 

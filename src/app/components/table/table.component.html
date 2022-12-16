@@ -22,19 +22,14 @@
 </div>
 
 <div class="items-header">
-  <div class="name" (click)="sort({ field: 'name' })">Name</div>
-  <div class="region" (click)="sort({ field: 'region' })">Region</div>
-  <div class="scores">
-    Scores:
-    <div class="scores-container">
-      <ng-container *ngFor="let score_type of score_types">
-        <div
-          class="score"
-          (click)="sort({ field: 'scores', type: score_type.key })"
-        >
-          {{ score_type.title }}
-        </div>
-      </ng-container>
+  <div class="name" (click)="sort('name')">Name</div>
+  <div class="region" (click)="sort('region')">Region</div>
+  <div class="scores-container column">
+    <div>Scores:</div>
+    <div class="row">
+      <div class="score" (click)="sort('exam')">Exam</div>
+      <div class="score" (click)="sort('quiz')">Quiz</div>
+      <div class="score" (click)="sort('homework')">Homework</div>
     </div>
   </div>
 </div>
